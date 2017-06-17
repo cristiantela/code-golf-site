@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(0);
+// error_reporting(0);
 
 function Lin () {
 	$config = parse_ini_file('access.ini');

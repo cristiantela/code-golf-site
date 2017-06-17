@@ -4,9 +4,9 @@ function verifyIfDoesnotExistThisNumber ($link, $area, $ddd, $number) {
 	$get = $link->prepare('
 		SELECT id FROM user
 		WHERE
-		area = :area AND
-		ddd = :ddd AND
-		number = :number
+			area = :area AND
+			ddd = :ddd AND
+			number = :number
 	');
 
 	$result = $get->execute([
@@ -42,13 +42,33 @@ function Post () {
 	include 'util/link.php';
 	$link = Lin();
 
+	include 'session/GetUserSessionByAuthorization.php';
+	$user = GetUserSessionByAuthorization($link);
+
+	if (!$user) {
+		echo json_encode([
+			'error' => 'Você precisa estar conectado para realizar esta ação',
+		]);
+		exit();
+	}
+
+	include 'user/GetUserById.php';
+	$user = GetUserById($link, $user);
+
+	if ($user['paper'] != 5) {
+		echo json_encode([
+			'error' => 'Você precisa ser um administrador para realizar esta ação',
+		]);
+		exit();
+	}
+
 	verifyIfDoesnotExistThisNumber($link, $area, $ddd, $number);
 
 	$createUser = $link->prepare('
 		INSERT INTO user
-		(area, ddd, number, name, activation_code)
+			(area, ddd, number, name, activation_code)
 		VALUES
-		(:area, :ddd, :number, :name, :activation_code)
+			(:area, :ddd, :number, :name, :activation_code)
 	');
 
 	$result = $createUser->execute([
