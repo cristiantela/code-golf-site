@@ -1,9 +1,9 @@
 <template>
-	<div id="app" class="container">
+	<div id="app">
 		<navbar
 			:Store="Store"
 		/>
-		<router-view></router-view>
+		<router-view class="container"></router-view>
 	</div>
 </template>
 
