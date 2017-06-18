@@ -15,6 +15,7 @@ import App from './App.vue'
 
 import Home from './page/home.vue'
 import About from './page/about.vue'
+import Login from './page/login.vue'
 import NotFound from './page/not-found.vue'
 
 const routes = [
@@ -25,6 +26,9 @@ const routes = [
  		path: '/about',
  		component: About
  	}, {
+ 		path: '/login',
+ 		component: Login,
+ 	}, {
  		path: '*',
  		component: NotFound,
  	}
@@ -34,7 +38,14 @@ const router = new VueRouter({
   routes
 })
 
-Vue.http.options.root = 'api/static/logged-in-member';
+Vue.http.options.root = 'api';
+Vue.http.interceptors.push(function(request, next) {
+	let token = localStorage.getItem('cgs-token');
+	if (token) {
+		request.headers.set('Authorization', token)
+	}
+	next();
+});
 
 new Vue({
 	router,

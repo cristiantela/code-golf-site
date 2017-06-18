@@ -22,5 +22,10 @@ function Get () {
 			'paper' => $user['paper'],
 		]);
 		exit();
+	} else {
+		echo json_encode([
+			'error' => 'Nenhum usuário encontrado',
+		]);
+		exit();
 	}
 }

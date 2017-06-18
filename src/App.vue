@@ -2,8 +2,9 @@
 	<div id="app">
 		<navbar
 			:Store="Store"
+			:do="this.do"
 		/>
-		<router-view class="container"></router-view>
+		<router-view class="container" :do="this.do"></router-view>
 	</div>
 </template>
 
@@ -39,11 +40,28 @@
 				Action: this.$resource('someItem{/id}', {}, {
 					getUser: {
 						method: 'GET',
-						url: 'user.json',
+						url: 'user.php',
 					},
+					createSession: {
+						method: 'POST',
+						url: 'session.php',
+					}
 				}),
+				do: {
+					login: (data, callback) => {
+						this.Action.createSession(data).then(response => {
+							let body = response.body;
+
+							if (callback) {
+								callback(body);
+							}
+						});
+					}
+				}
 			}
 		},
+
+		methods: {},
 	}
 </script>
 

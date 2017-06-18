@@ -11,7 +11,7 @@
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
 					<li v-if="Store.user && Store.user != 'loading'" class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<a class="nav-link dropdown-toggle" href="#/" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							{{ Store.user.name }}
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
