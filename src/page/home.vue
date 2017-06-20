@@ -38,6 +38,8 @@
 
 <script>
 	export default {
+		props: ['do'],
+
 		data () {
 			return {}
 		}

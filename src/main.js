@@ -18,6 +18,7 @@ import About from './page/about.vue'
 import Login from './page/login.vue'
 import Logout from './page/logout.vue'
 import Signup from './page/signup.vue'
+import Manage from './page/manage.vue'
 import NotFound from './page/not-found.vue'
 
 const routes = [
@@ -36,6 +37,9 @@ const routes = [
  	}, {
  		path: '/signup',
  		component: Signup,
+ 	}, {
+ 		path: '/manage',
+ 		component: Manage,
  	}, {
  		path: '*',
  		component: NotFound,

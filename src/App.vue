@@ -28,6 +28,10 @@
 					user: null,
 				},
 				Action: this.$resource('someItem{/id}', {}, {
+					createUser: {
+						method: 'POST',
+						url: 'user.php',
+					},
 					getUser: {
 						method: 'GET',
 						url: 'user.php',
@@ -88,6 +92,26 @@
 								callback(body);
 							}
 						})
+					},
+
+					createUser: (data, callback) => {
+						this.Action.createUser(data).then(response => {
+							let body = response.body;
+
+							if (callback) {
+								callback(body);
+							}
+						});
+					},
+
+					getUser: (data, callback) => {
+						this.Action.getUser(data).then(response => {
+							let body = response.body;
+
+							if (callback) {
+								callback(body);
+							}
+						});
 					},
 				}
 			}

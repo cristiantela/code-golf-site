@@ -22,6 +22,9 @@
 							</router-link>
 						</div>
 					</li>
+					<li v-if="Store.user && Store.user != 'loading' && Store.user.paper == 5" class="nav-item">
+						<router-link class="nav-link" to="/manage">Gerenciar</router-link>
+					</li>
 					<li v-if="Store.user === null" class="nav-item">
 						<router-link class="nav-link" to="/login">Entrar</router-link>
 					</li>
