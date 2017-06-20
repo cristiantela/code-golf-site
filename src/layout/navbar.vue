@@ -5,7 +5,6 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<router-link class="navbar-brand" to="/">
-				<img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
 				Code Golf
 			</router-link>
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">

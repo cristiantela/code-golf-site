@@ -1,14 +1,12 @@
 <template>
 	<div>
-		<h4>Entrar</h4>
-		<div>
-			Se você ainda não tem uma conta, <router-link to="signup">cadastre-se aqui</router-link>
-		</div>
+		<h3>Cadastrar</h3>
 		<div v-if="error">{{ error }}</div>
-		<form @submit.prevent="login">
+		<form @submit.prevent="signup">
+			<masked-input class="form-control" v-model="activation_code" :mask="[/[0-9A-Za-z]/, /[0-9A-Za-z]/, /[0-9A-Za-z]/, /[0-9A-Za-z]/, '-', /[0-9A-Za-z]/, /[0-9A-Za-z]/, /[0-9A-Za-z]/, /[0-9A-Za-z]/]" :guide="true"/>
 			<input class="form-control" v-model="username" type="text">
 			<input class="form-control" v-model="password" type="password">
-			<input class="btn btn-primary" type="submit">
+			<input class="btn btn-primary" type="submit" value="Cadastrar">
 		</form>
 	</div>
 </template>
@@ -17,26 +15,25 @@
 	export default {
 		props: ['do'],
 
-		created () {
-		},
-
 		data () {
 			return {
 				error: '',
+				activation_code: '',
 				username: '',
 				password: '',
 			}
 		},
 
 		methods: {
-			login () {
+			signup () {
 				let data = new FormData();
 
+				data.append('activation_code', this.activation_code.replace('-', ''))
 				data.append('username', this.username)
 				data.append('password', this.password)
 
 				this.error = '';
-				this.do.login(data, (body) => {
+				this.do.signup(data, (body) => {
 					if (body.error) {
 						this.error = body.error;
 					} else {

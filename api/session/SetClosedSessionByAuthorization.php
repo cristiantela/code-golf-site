@@ -1,6 +1,6 @@
 <?php
 
-function GetUserSessionByAuthorization ($link) {
+function SetClosedSessionByAuthorization ($link) {
 	$headers = getallheaders();
 
 	$token = isset($headers['Authorization']) ? $headers['Authorization'] : '';
@@ -10,8 +10,9 @@ function GetUserSessionByAuthorization ($link) {
 	}
 
 	$getSession = $link->prepare('
-		SELECT user
-		FROM session
+		UPDATE session
+		SET
+			is_open = false
 		WHERE
 			token = :token AND
 			is_open = true
@@ -23,14 +24,20 @@ function GetUserSessionByAuthorization ($link) {
 
 	if (!$result) {
 		echo json_encode([
-			'error' => 'Não foi possível completar a verificação de token',
+			'error' => 'Não foi possível completar a cancelação de token',
 		]);
 		exit();
 	}
 
 	if ($getSession->rowCount() === 0) {
-		return null;
+		echo json_encode([
+			'error' => 'Nada foi alterado',
+		]);
+		exit();
 	} else {
-		return $getSession->fetch()['user'];
+		echo json_encode([
+			'token' => '',
+		]);
+		exit();
 	}
 }

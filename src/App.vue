@@ -19,17 +19,7 @@
 		},
 
 		created () {
-			this.Store.user = 'loading';
-
-			this.Action.getUser().then(response => {
-				let body = response.body;
-
-				if (body.error) {
-					this.Store.user = null;
-				} else {
-					this.Store.user = body;
-				}
-			});
+			this.do.navbar();
 		},
 
 		data () {
@@ -42,12 +32,34 @@
 						method: 'GET',
 						url: 'user.php',
 					},
+					createCredential: {
+						method: 'POST',
+						url: 'credential.php',
+					},
 					createSession: {
 						method: 'POST',
 						url: 'session.php',
-					}
+					},
+					deleteSession: {
+						method: 'DELETE',
+						url: 'session.php',
+					},
 				}),
 				do: {
+					navbar: () => {
+						this.Store.user = 'loading';
+
+						this.Action.getUser().then(response => {
+							let body = response.body;
+
+							if (body.error) {
+								this.Store.user = null;
+							} else {
+								this.Store.user = body;
+							}
+						});
+					},
+
 					login: (data, callback) => {
 						this.Action.createSession(data).then(response => {
 							let body = response.body;
@@ -56,7 +68,27 @@
 								callback(body);
 							}
 						});
-					}
+					},
+
+					signup: (data, callback) => {
+						this.Action.createCredential(data).then(response => {
+							let body = response.body;
+
+							if (callback) {
+								callback(body);
+							}
+						});
+					},
+
+					logout: (callback) => {
+						this.Action.deleteSession().then(response => {
+							let body = response.body;
+
+							if (callback) {
+								callback(body);
+							}
+						})
+					},
 				}
 			}
 		},

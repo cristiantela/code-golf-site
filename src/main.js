@@ -16,6 +16,8 @@ import App from './App.vue'
 import Home from './page/home.vue'
 import About from './page/about.vue'
 import Login from './page/login.vue'
+import Logout from './page/logout.vue'
+import Signup from './page/signup.vue'
 import NotFound from './page/not-found.vue'
 
 const routes = [
@@ -28,6 +30,12 @@ const routes = [
  	}, {
  		path: '/login',
  		component: Login,
+ 	}, {
+ 		path: '/logout',
+ 		component: Logout,
+ 	}, {
+ 		path: '/signup',
+ 		component: Signup,
  	}, {
  		path: '*',
  		component: NotFound,
@@ -46,6 +54,10 @@ Vue.http.interceptors.push(function(request, next) {
 	}
 	next();
 });
+
+
+import MaskedInput from 'vue-text-mask'
+Vue.component('masked-input', MaskedInput);
 
 new Vue({
 	router,
