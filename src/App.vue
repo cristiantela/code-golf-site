@@ -48,6 +48,10 @@
 						method: 'DELETE',
 						url: 'session.php',
 					},
+					createChallenge: {
+						method: 'POST',
+						url: 'challenge.php',
+					},
 				}),
 				do: {
 					navbar: () => {
@@ -106,6 +110,16 @@
 
 					getUser: (data, callback) => {
 						this.Action.getUser(data).then(response => {
+							let body = response.body;
+
+							if (callback) {
+								callback(body);
+							}
+						});
+					},
+
+					createChallenge: (data, callback) => {
+						this.Action.createChallenge(data).then(response => {
 							let body = response.body;
 
 							if (callback) {

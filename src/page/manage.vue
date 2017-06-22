@@ -1,21 +1,88 @@
 <template>
 	<div>
-		<h3>Pré-cadastrar usuário</h3>
-		<div v-if="error">{{ error }}</div>
-		<form @submit.prevent="createUser">
-			Nome<br>
-			<input class="form-control" v-model="name" type="text">
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" @click="openModal('create-user')">
+			Pré-cadastrar
+		</button>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" @click="openModal('create-challenge')">
+			Adicionar desafio
+		</button>
 
-			Área<br>
-			<input class="form-control" v-model="area" type="number">
+		<form @submit.prevent="tigger">
+			<modal :title="modalContent[activeModal] && modalContent[activeModal].title">
+				<div v-if="activeModal == 'create-user'" slot="body" class="modal-body">
+					<div v-if="error">{{ error }}</div>
+					Nome<br>
+					<input class="form-control" v-model="name" type="text">
 
-			DDD<br>
-			<input class="form-control" v-model="ddd" type="number">
+					Área<br>
+					<input class="form-control" v-model="area" type="number">
 
-			Número<br>
-			<input class="form-control" v-model="number" type="number">
-			<input class="btn btn-primary" type="submit" value="Pré-Cadastrar">
+					DDD<br>
+					<input class="form-control" v-model="ddd" type="number">
+
+					Número<br>
+					<input class="form-control" v-model="number" type="number">
+				</div>
+
+				<div v-if="activeModal == 'create-challenge'" slot="body" class="modal-body">
+					<div v-if="error">{{ error }}</div>
+					Título<br>
+					<input class="form-control" v-model="title" type="text">
+
+					Description<br>
+					<textarea class="form-control" v-model="description"></textarea>
+
+					Ínicio<br>
+					<input class="form-control" v-model="start" type="text">
+
+					Fim<br>
+					<input class="form-control" v-model="finish" type="text">
+				</div>
+				<div slot="footer" class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-primary">
+						{{ modalContent[activeModal] && modalContent[activeModal].button }}
+					</button>
+				</div>
+			</modal>
 		</form>
+
+		<!-- Modal -->
+		<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div v-if="activeModal == 'create-user'" class="modal-body">
+						<div v-if="error">{{ error }}</div>
+						<form @submit.prevent="createUser">
+							Nome<br>
+							<input class="form-control" v-model="name" type="text">
+
+							Área<br>
+							<input class="form-control" v-model="area" type="number">
+
+							DDD<br>
+							<input class="form-control" v-model="ddd" type="number">
+
+							Número<br>
+							<input class="form-control" v-model="number" type="number">
+							<input class="btn btn-primary" type="submit" value="Pré-Cadastrar">
+						</form>
+					</div>
+					<div v-if="activeModal == 'create-challenge'" class="modal-body">
+						<div v-if="error">{{ error }}</div>
+						<form @submit.prevent="createUser">
+							
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<h3>Pré-cadastrar usuário</h3>
+		
 
 		<h3>Usuários pré-cadastrados</h3>
 		<div v-for="user in preRegistredUsers">
@@ -26,8 +93,14 @@
 	</div>
 </template>
 <script>
+	import Modal from '../component/modal.vue';
+
 	export default {
 		props: ['do'],
+
+		components: {
+			'modal': Modal,
+		},
 
 		created () {
 			this.getUser();
@@ -35,12 +108,27 @@
 
 		data () {
 			return {
+				modalContent: {
+					'create-user': {
+						title: 'Pré-cadastrar Usuário',
+						button: 'Pré-Cadastrar',
+					},
+					'create-challenge': {
+						title: 'Adicionar Desafio',
+						button: 'Adicionar',
+					},
+				},
+				activeModal: '',
 				error: '',
 				name: '',
 				area: 55,
 				ddd: '',
 				number: '',
 				preRegistredUsers: [],
+				title: '',
+				description: '',
+				start: '',
+				finish: '',
 			}
 		},
 
@@ -76,6 +164,39 @@
 						this.preRegistredUsers = body;
 					}
 				});
+			},
+
+			createChallenge () {
+				let data = new FormData();
+
+				data.append('title', this.title)
+				data.append('description', this.description)
+				data.append('start', this.start)
+				data.append('finish', this.finish)
+
+				this.error = '';
+				this.do.createChallenge(data, (body) => {
+					if (body.error) {
+						this.error = body.error;
+					} else {
+						console.log(body);
+					}
+				});
+			},
+
+			openModal (modal) {
+				this.activeModal = modal;
+				$('#myModal').modal('show')
+			},
+
+			tigger () {
+				this.error = '';
+
+				if (this.activeModal === 'create-user') {
+					this.createUser();
+				} else if (this.activeModal === 'create-challenge') {
+					this.createChallenge();
+				}
 			},
 		},
 
