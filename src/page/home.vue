@@ -1,38 +1,24 @@
 <template>
 	<div>
-	30º Desafio 10 à 17 de junho de 2017
-		Nome:
-		Quadrado e cubo
+		<div v-if="error">{{ error }}</div>
 
-		Por:
-		Uri Online Judge
-		URI ONLINE JUDGE
-
-		Desafio:
-		Escreva um programa que leia um valor inteiro <code>N</code>, sendo <code>N</code> a quantidade de linhas de saída que serão apresentadas na execução do programa.
-		Entrada
-		O arquivo de entrada contém um número inteiro positivo <code>N</code>.
-		Saída
-		Imprima a saída conforme o exemplo fornecido.
-
-		Exemplos:
-		<div>
+		<div v-if="challenge">
+			<h2>
+				<router-link :to="'challenge/' + challenge.id">
+					{{ challenge.title }}
+				</router-link>
+			</h2>
+			<p>{{ challenge.description }}</p>
 			<div>
-				<pre>5</pre>
+				{{ challenge.start }}
+				—
+				{{ challenge.finish }}
 			</div>
-			<div>
-				<pre>1 1 1
-2 4 8
-3 9 27
-4 16 64
-5 25 125</pre>
-			</div>
+
+			<button type="submit" class="btn btn-success">
+				Submeter
+			</button>
 		</div>
-
-		Observações importantes:
-		Neste desafio não poderá ser passado o inpute via argumento da linha de comando.
-
-
 	</div>
 </template>
 
@@ -40,8 +26,28 @@
 	export default {
 		props: ['do'],
 
+		created () {
+			this.getChallenge();
+		},
+
 		data () {
-			return {}
-		}
+			return {
+				error: '',
+				challenge: null,
+			}
+		},
+
+		methods: {
+			getChallenge () {
+				this.error = '';
+				this.do.getChallenge(null, (body) => {
+					if (body.error) {
+						this.error = body.error;
+					} else {
+						this.challenge = body;
+					}
+				});
+			},
+		},
 	}
 </script>

@@ -52,6 +52,10 @@
 						method: 'POST',
 						url: 'challenge.php',
 					},
+					getChallenge: {
+						method: 'GET',
+						url: 'challenge.php',
+					},
 				}),
 				do: {
 					navbar: () => {
@@ -120,6 +124,16 @@
 
 					createChallenge: (data, callback) => {
 						this.Action.createChallenge(data).then(response => {
+							let body = response.body;
+
+							if (callback) {
+								callback(body);
+							}
+						});
+					},
+
+					getChallenge: (data, callback) => {
+						this.Action.getChallenge(data).then(response => {
 							let body = response.body;
 
 							if (callback) {
