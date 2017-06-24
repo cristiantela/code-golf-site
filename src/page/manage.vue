@@ -47,43 +47,6 @@
 			</modal>
 		</form>
 
-		<!-- Modal -->
-		<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div v-if="activeModal == 'create-user'" class="modal-body">
-						<div v-if="error">{{ error }}</div>
-						<form @submit.prevent="createUser">
-							Nome<br>
-							<input class="form-control" v-model="name" type="text">
-
-							Área<br>
-							<input class="form-control" v-model="area" type="number">
-
-							DDD<br>
-							<input class="form-control" v-model="ddd" type="number">
-
-							Número<br>
-							<input class="form-control" v-model="number" type="number">
-							<input class="btn btn-primary" type="submit" value="Pré-Cadastrar">
-						</form>
-					</div>
-					<div v-if="activeModal == 'create-challenge'" class="modal-body">
-						<div v-if="error">{{ error }}</div>
-						<form @submit.prevent="createUser">
-							
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
-					</div>
-				</div>
-			</div>
-		</div> -->
-		<h3>Pré-cadastrar usuário</h3>
-		
-
 		<h3>Usuários pré-cadastrados</h3>
 		<div v-for="user in preRegistredUsers">
 			<h5>{{ user.name }}</h5>
