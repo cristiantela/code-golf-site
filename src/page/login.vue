@@ -6,7 +6,9 @@
 		</div>
 		<div v-if="error">{{ error }}</div>
 		<form @submit.prevent="login">
+			Nome de usuário
 			<input class="form-control" v-model="username" type="text">
+			Senha
 			<input class="form-control" v-model="password" type="password">
 			<input class="btn btn-primary" type="submit">
 		</form>

@@ -3,8 +3,11 @@
 		<h3>Cadastrar</h3>
 		<div v-if="error">{{ error }}</div>
 		<form @submit.prevent="signup">
+			Código de verificação
 			<masked-input class="form-control" v-model="activation_code" :mask="[/[0-9A-Za-z]/, /[0-9A-Za-z]/, /[0-9A-Za-z]/, /[0-9A-Za-z]/, '-', /[0-9A-Za-z]/, /[0-9A-Za-z]/, /[0-9A-Za-z]/, /[0-9A-Za-z]/]" :guide="true"/>
+			Nome de usuário
 			<input class="form-control" v-model="username" type="text">
+			Senha
 			<input class="form-control" v-model="password" type="password">
 			<input class="btn btn-primary" type="submit" value="Cadastrar">
 		</form>
