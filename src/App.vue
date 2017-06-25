@@ -56,6 +56,18 @@
 						method: 'GET',
 						url: 'challenge.php',
 					},
+					getLanguage: {
+						method: 'GET',
+						url: 'language.php',
+					},
+					updateCode: {
+						method: 'PUT',
+						url: 'code.php',
+					},
+					getCode: {
+						method: 'GET',
+						url: 'code.php',
+					},
 				}),
 				do: {
 					navbar: () => {
@@ -134,6 +146,46 @@
 
 					getChallenge: (data, callback) => {
 						this.Action.getChallenge(data).then(response => {
+							let body = response.body;
+
+							if (callback) {
+								callback(body);
+							}
+						});
+					},
+
+					getLanguage: (data, callback) => {
+						this.Action.getLanguage(data).then(response => {
+							let body = response.body;
+
+							if (callback) {
+								callback(body);
+							}
+						})
+					},
+
+					getLanguage: (data, callback) => {
+						this.Action.getLanguage(data).then(response => {
+							let body = response.body;
+
+							if (callback) {
+								callback(body);
+							}
+						})
+					},
+
+					getCode: (data, callback) => {
+						this.Action.getCode(data).then(response => {
+							let body = response.body;
+
+							if (callback) {
+								callback(body);
+							}
+						});
+					},
+
+					updateCode: (data, callback) => {
+						this.Action.updateCode(data).then(response => {
 							let body = response.body;
 
 							if (callback) {

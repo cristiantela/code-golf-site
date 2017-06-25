@@ -5,13 +5,15 @@
 		<form @submit.prevent="updateCode">
 			<modal title="Submeter">
 				<div slot="body" class="modal-body">
+					<div v-if="errorCode">{{ errorCode }}</div>
+
 					Linguagem
-					<select class="form-control">
-						<option>JavaScript</option>
+					<select v-model="language" class="form-control">
+						<option v-for="language in languages" :value="language.id">{{ language.name }}</option>
 					</select>
 
 					Código<br>
-					<textarea @keydown="onInput" rows="10" class="form-control" v-model="description"></textarea>
+					<textarea v-model="content" @keydown="onInput" rows="10" class="form-control"></textarea>
 				</div>
 				<div slot="footer" class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -35,7 +37,7 @@
 				{{ challenge.finish }}
 			</div>
 
-			<button @click="openModal" type="button" class="btn btn-success">
+			<button @click="openModal(challenge.id)" type="button" class="btn btn-success">
 				Submeter
 			</button>
 		</div>
@@ -55,12 +57,18 @@
 
 		created () {
 			this.getChallenge();
+			this.getLanguage();
 		},
 
 		data () {
 			return {
 				error: '',
+				errorCode: '',
+				languages: [],
 				challenge: null,
+				language: '',
+				content: '',
+				challengeId: null,
 			}
 		},
 
@@ -76,17 +84,51 @@
 				});
 			},
 
-			updateCode () {
+			getLanguage () {
+				this.do.getLanguage(null, (body) => {
+					if (body.error) {
 
+					} else {
+						this.languages = body;
+					}
+				})
 			},
 
-			openModal (modal) {
-				this.activeModal = modal;
+			updateCode () {
+				let data = new FormData();
+
+				data.append('challenge', this.challengeId)
+				data.append('language', this.language)
+				data.append('content', this.content)
+				
+				this.errorCode = '';
+				this.do.updateCode(data, (body) => {
+					if (body.error) {
+						this.errorCode = body.error;
+					} else {
+						console.log(body);
+					}
+				})
+			},
+
+			getCode () {
+				this.do.getCode({ challenge: this.challengeId }, (body) => {
+					if (body.error) {
+
+					} else {
+						this.language = body.language;
+						this.content = body.content;
+					}
+				})
+			},
+
+			openModal (challengeId) {
+				this.challengeId = challengeId;
+				this.getCode();
 				$('#myModal').modal('show')
 			},
 
 			onInput (event) {
-				console.log(event)
 				if (event.key === 'Tab') {
 					event.preventDefault()
 					return false;
