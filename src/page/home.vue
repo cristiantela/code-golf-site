@@ -37,6 +37,25 @@
 				{{ challenge.finish }}
 			</div>
 
+			<div>
+				<table class="table table-bordered">
+					<thead>
+						<tr class="thead-default">
+							<th>Linguagem</th>
+							<th>Nome</th>
+							<th>Caracteres</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="code in challenge.ranking">
+							<td>{{ code.language.name }}</td>
+							<td>{{ code.user.name }}</td>
+							<td>{{ code.length }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
 			<button @click="openModal(challenge.id)" type="button" class="btn btn-success">
 				Submeter
 			</button>
